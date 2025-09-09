@@ -163,6 +163,11 @@ export interface CalculationInputs {
   hasPrivateHealth: boolean;
   isSecondJob: boolean;
   medicareReduction: MLReduction;
+  hasStudentLoanDebt: boolean;
+  onWorkingHolidayVisa: boolean;
+  familyStatus: 'single' | 'family';
+  numberOfDependants: number;
+  eligibleForSAPTO: boolean;
 }
 
 export const calculateTax = (inputs: CalculationInputs): TaxCalculation => {

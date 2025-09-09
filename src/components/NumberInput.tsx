@@ -12,6 +12,7 @@ interface NumberInputProps {
   min?: number;
   max?: number;
   step?: number;
+  className?: string;
 }
 
 export const NumberInput = ({ 
@@ -24,7 +25,8 @@ export const NumberInput = ({
   suffix,
   min = 0,
   max,
-  step = 1
+  step = 1,
+  className
 }: NumberInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseFloat(e.target.value) || 0;
@@ -51,7 +53,7 @@ export const NumberInput = ({
           min={min}
           max={max}
           step={step}
-          className={`${prefix ? 'pl-8' : ''} ${suffix ? 'pr-12' : ''}`}
+          className={`${prefix ? 'pl-8' : ''} ${suffix ? 'pr-12' : ''} ${className || ''}`}
         />
         {suffix && (
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">

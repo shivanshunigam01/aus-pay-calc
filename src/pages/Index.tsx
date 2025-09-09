@@ -5,7 +5,7 @@ import { calculateTax, CalculationInputs } from '@/lib/ausTax';
 import { Frequency } from '@/lib/money';
 
 const DEFAULT_INPUTS: CalculationInputs = {
-  salary: 80000,
+  salary: 60000,
   frequency: 'annually',
   includesSuper: false,
   superRate: 12,
@@ -15,7 +15,12 @@ const DEFAULT_INPUTS: CalculationInputs = {
   hasHELP: false,
   hasPrivateHealth: false,
   isSecondJob: false,
-  medicareReduction: 'none'
+  medicareReduction: 'none',
+  hasStudentLoanDebt: false,
+  onWorkingHolidayVisa: false,
+  familyStatus: 'single',
+  numberOfDependants: 0,
+  eligibleForSAPTO: false
 };
 
 const STORAGE_KEY = 'payCalculatorInputs';
