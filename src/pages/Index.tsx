@@ -1,33 +1,34 @@
-import { useState, useEffect, useMemo } from 'react';
-import { PayCalculatorForm } from '@/components/PayCalculatorForm';
-import { ResultsCard } from '@/components/ResultsCard';
-import { calculateTax, CalculationInputs } from '@/lib/ausTax';
-import { Frequency } from '@/lib/money';
+import { useState, useEffect, useMemo } from "react";
+import { PayCalculatorForm } from "@/components/PayCalculatorForm";
+import { ResultsCard } from "@/components/ResultsCard";
+import { calculateTax, CalculationInputs } from "@/lib/ausTax";
+import { Frequency } from "@/lib/money";
 
 const DEFAULT_INPUTS: CalculationInputs = {
   salary: 60000,
-  frequency: 'annually',
+  frequency: "annually",
   includesSuper: false,
   superRate: 12,
-  year: '2025-26',
-  residency: 'resident',
+  year: "2025-26",
+  residency: "resident",
   claimTaxFreeThreshold: true,
   hasHELP: false,
   hasPrivateHealth: false,
   isSecondJob: false,
-  medicareReduction: 'none',
+  medicareReduction: "none",
   hasStudentLoanDebt: false,
   onWorkingHolidayVisa: false,
-  familyStatus: 'single',
+  familyStatus: "single",
   numberOfDependants: 0,
-  eligibleForSAPTO: false
+  eligibleForSAPTO: false,
 };
 
-const STORAGE_KEY = 'payCalculatorInputs';
+const STORAGE_KEY = "payCalculatorInputs";
 
 const Index = () => {
   const [inputs, setInputs] = useState<CalculationInputs>(DEFAULT_INPUTS);
-  const [displayFrequency, setDisplayFrequency] = useState<Frequency>('annually');
+  const [displayFrequency, setDisplayFrequency] =
+    useState<Frequency>("annually");
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -37,7 +38,7 @@ const Index = () => {
         const parsedInputs = JSON.parse(saved);
         setInputs({ ...DEFAULT_INPUTS, ...parsedInputs });
       } catch (e) {
-        console.warn('Failed to parse saved inputs');
+        console.warn("Failed to parse saved inputs");
       }
     }
   }, []);
@@ -54,24 +55,27 @@ const Index = () => {
 
   const handleReset = () => {
     setInputs(DEFAULT_INPUTS);
-    setDisplayFrequency('annually');
+    setDisplayFrequency("annually");
     localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#f8f9fa' }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#f8f9fa" }}>
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-8">
-          <div className="flex items-center gap-3 mb-2">
+          {/* <div className="flex items-center gap-3 mb-2">
             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">M</span>
             </div>
             <span className="text-primary font-semibold">money.com.au</span>
-          </div>
-          <h1 className="text-4xl font-bold text-foreground mb-2">PAY CALCULATOR</h1>
+          </div> */}
+          <h1 className="text-4xl font-bold text-foreground mb-2">
+            PAY CALCULATOR
+          </h1>
           <p className="text-muted-foreground text-lg">
-            Find out how much take-home pay you'll receive if you're earning a certain salary
+            Find out how much take-home pay you'll receive if you're earning a
+            certain salary
           </p>
         </div>
       </header>
@@ -105,9 +109,10 @@ const Index = () => {
               How to calculate your take-home pay (Australia)
             </h2>
             <p className="text-muted-foreground">
-              Your take-home pay is calculated by deducting income tax, Medicare levy, Medicare levy 
-              surcharge (if applicable), and HELP/HECS repayments from your gross salary. This calculator 
-              uses the latest Australian Tax Office (ATO) rates and thresholds.
+              Your take-home pay is calculated by deducting income tax, Medicare
+              levy, Medicare levy surcharge (if applicable), and HELP/HECS
+              repayments from your gross salary. This calculator uses the latest
+              Australian Tax Office (ATO) rates and thresholds.
             </p>
           </section>
 
@@ -141,7 +146,7 @@ const Index = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-3">Non-residents</h3>
                 <div className="space-y-2 text-sm">
@@ -167,9 +172,10 @@ const Index = () => {
               Is our Pay Calculator accurate?
             </h2>
             <p className="text-muted-foreground">
-              This calculator uses official Australian Tax Office rates and is updated for the 
-              2025–26 financial year. Results are estimates and may vary based on individual 
-              circumstances. For complex situations, consult a qualified tax professional.
+              This calculator uses official Australian Tax Office rates and is
+              updated for the 2025–26 financial year. Results are estimates and
+              may vary based on individual circumstances. For complex
+              situations, consult a qualified tax professional.
             </p>
           </section>
         </div>
@@ -178,7 +184,10 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border bg-card mt-16">
         <div className="container mx-auto px-4 py-6 text-center text-muted-foreground">
-          <p>© 2024 Australian Pay Calculator. Tax rates sourced from the Australian Tax Office.</p>
+          <p>
+            © 2024 Australian Pay Calculator. Tax rates sourced from the
+            Australian Tax Office.
+          </p>
         </div>
       </footer>
     </div>

@@ -4,7 +4,7 @@ import { FrequencyTabs } from "./FrequencyTabs";
 import { PieTakeHome } from "./PieTakeHome";
 import { formatAUD, fromAnnual, Frequency } from "@/lib/money";
 import { TaxCalculation } from "@/lib/ausTax";
-import { ArrowRight } from "lucide-react";
+import { Info } from "lucide-react";
 
 interface ResultsCardProps {
   calculation: TaxCalculation;
@@ -12,10 +12,14 @@ interface ResultsCardProps {
   onFrequencyChange: (frequency: Frequency) => void;
 }
 
+const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
+const pct = (part: number, whole: number) =>
+  whole > 0 ? ((part / whole) * 100).toFixed(1) : "0.0";
+
 export const ResultsCard = ({
   calculation,
   displayFrequency,
-  onFrequencyChange
+  onFrequencyChange,
 }: ResultsCardProps) => {
   const {
     baseIncome,
@@ -24,177 +28,144 @@ export const ResultsCard = ({
     medicareLevy,
     medicareLevySurcharge,
     helpRepayment,
-    totalDeductions,
-    takeHomeAnnual
+    takeHomeAnnual,
+    marginalRate,
   } = calculation;
 
-  const convertToDisplayFreq = (annual: number) => fromAnnual(annual, displayFrequency);
-  
-  const takeHomePercentage = ((takeHomeAnnual / baseIncome) * 100).toFixed(1);
+  // convert to the chosen period
+  const b = fromAnnual(baseIncome, displayFrequency);
+  const sup = fromAnnual(employerSuper, displayFrequency);
+  const itx = fromAnnual(incomeTax, displayFrequency);
+  const ml = fromAnnual(medicareLevy, displayFrequency);
+  const mls = fromAnnual(medicareLevySurcharge, displayFrequency);
+  const help = fromAnnual(helpRepayment, displayFrequency);
+  const take = fromAnnual(takeHomeAnnual, displayFrequency);
+
+  // rounding reconciliation: show a tiny "Tax Offsets" row if rounding creates drift
+  const totalTax = itx + ml + mls + help;
+  const drift = round2(b - totalTax - take); // positive => our per-item rounding shaved cents
+  const offsets = Math.abs(drift) < 0.005 ? 0 : drift; // keep 0 unless visible
+
+  // dynamic % badges (as share of taxable income per period)
+  const takePct = pct(take, b);
+  const supPct = pct(sup, b);
+  const itxPct = pct(itx, b);
+  const mlPct = pct(ml, b);
+  const mlsPct = pct(mls, b);
+  const helpPct = pct(help, b);
 
   return (
     <div className="space-y-4">
-      <Card className="bg-white shadow-sm">
-        <CardHeader className="pb-4">
+      <Card className="bg-white shadow-sm rounded-2xl">
+        <CardHeader className="pb-2">
           <div className="text-center">
             <PieTakeHome
-              takeHome={convertToDisplayFreq(takeHomeAnnual)}
-              incomeTax={convertToDisplayFreq(incomeTax)}
-              medicareLevy={convertToDisplayFreq(medicareLevy)}
-              medicareLevySurcharge={convertToDisplayFreq(medicareLevySurcharge)}
-              helpRepayment={convertToDisplayFreq(helpRepayment)}
+              takeHome={take}
+              incomeTax={itx}
+              medicareLevy={ml}
+              medicareLevySurcharge={mls}
+              helpRepayment={help}
             />
-            
             <div className="mt-4">
               <p className="text-sm text-gray-600 mb-1">
-                Your take home pay is <span className="bg-primary text-white px-2 py-0.5 rounded text-xs font-medium">{takeHomePercentage}%</span>
+                Your take home pay is{" "}
+                <span className="bg-primary text-white px-2 py-0.5 rounded-md text-xs font-semibold">
+                  {takePct}%
+                </span>
               </p>
-              <div className="text-4xl font-bold text-gray-900 mb-4">
-                {formatAUD(convertToDisplayFreq(takeHomeAnnual))}
+              <div className="text-4xl font-extrabold text-primary mb-4">
+                {formatAUD(round2(take))}
               </div>
-              <FrequencyTabs value={displayFrequency} onChange={onFrequencyChange} />
+
+              <FrequencyTabs
+                value={displayFrequency}
+                onChange={onFrequencyChange}
+              />
             </div>
           </div>
         </CardHeader>
-        
-        <CardContent className="space-y-3">
-          {/* Breakdown items with colored dots and percentages */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-teal-400 rounded-full"></div>
-                <span className="text-gray-600">Superannuation</span>
-              </div>
-              <div className="text-right">
-                <div className="bg-teal-100 text-teal-700 px-2 py-0.5 rounded text-xs font-medium inline-block mb-1">
-                  12.0%
-                </div>
-                <div className="font-medium">{formatAUD(convertToDisplayFreq(employerSuper))}</div>
-              </div>
-            </div>
 
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                <span className="text-gray-600">Income Tax</span>
-              </div>
-              <div className="text-right">
-                <div className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs font-medium inline-block mb-1">
-                  {((incomeTax / baseIncome) * 100).toFixed(1)}%
-                </div>
-                <div className="font-medium">{formatAUD(convertToDisplayFreq(incomeTax))}</div>
-              </div>
-            </div>
+        <CardContent className="space-y-3 pt-4">
+          <BreakdownRow
+            label="Superannuation"
+            color="bg-teal-400"
+            badge={supPct}
+            amount={sup}
+          />
+          <BreakdownRow
+            label="Income Tax"
+            color="bg-blue-400"
+            badge={itxPct}
+            amount={itx}
+          />
+          <BreakdownRow
+            label="Medicare Levy"
+            color="bg-purple-400"
+            badge={mlPct}
+            amount={ml}
+          />
+          <BreakdownRow
+            label="Medicare Levy Surcharge"
+            color="bg-green-400"
+            badge={mlsPct}
+            amount={mls}
+          />
+          <BreakdownRow
+            label="HELP / SSL / TLS Repayment"
+            color="bg-yellow-400"
+            badge={helpPct}
+            amount={help}
+          />
+          <BreakdownRow
+            label="SAPTO"
+            color="bg-emerald-500"
+            badge={"0.0"}
+            amount={0}
+          />
+          <BreakdownRow
+            label="Tax Offsets"
+            color="bg-gray-400"
+            badge={offsets === 0 ? "0.0" : pct(offsets, b)}
+            amount={offsets}
+            negativeStyle
+          />
 
-            {medicareLevy > 0 && (
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-                  <span className="text-gray-600">Medicare Levy</span>
-                </div>
-                <div className="text-right">
-                  <div className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs font-medium inline-block mb-1">
-                    2.0%
-                  </div>
-                  <div className="font-medium">{formatAUD(convertToDisplayFreq(medicareLevy))}</div>
-                </div>
-              </div>
-            )}
-
-            {medicareLevySurcharge > 0 && (
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                  <span className="text-gray-600">Medicare Levy Surcharge</span>
-                </div>
-                <div className="text-right">
-                  <div className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-medium inline-block mb-1">
-                    0.0%
-                  </div>
-                  <div className="font-medium">{formatAUD(convertToDisplayFreq(medicareLevySurcharge))}</div>
-                </div>
-              </div>
-            )}
-
-            {helpRepayment > 0 && (
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                  <span className="text-gray-600">HELP / SSL / TLS Repayment</span>
-                </div>
-                <div className="text-right">
-                  <div className="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded text-xs font-medium inline-block mb-1">
-                    0.5%
-                  </div>
-                  <div className="font-medium">{formatAUD(convertToDisplayFreq(helpRepayment))}</div>
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-gray-600">SAPTO</span>
-              </div>
-              <div className="text-right">
-                <div className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-medium inline-block mb-1">
-                  0.0%
-                </div>
-                <div className="font-medium">$0.00</div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
-                <span className="text-gray-600">Tax Offsets</span>
-              </div>
-              <div className="text-right">
-                <div className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded text-xs font-medium inline-block mb-1">
-                  -$2%
-                </div>
-                <div className="font-medium">-$100.00</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Summary totals */}
           <div className="border-t pt-3 space-y-2">
-            <div className="flex justify-between text-sm font-medium">
-              <span>Total Tax</span>
-              <span>{formatAUD(convertToDisplayFreq(incomeTax))}</span>
-            </div>
-            <div className="flex justify-between text-sm font-medium">
-              <span>Total Taxable Income</span>
-              <span>{formatAUD(convertToDisplayFreq(baseIncome))}</span>
-            </div>
-            <div className="flex justify-between text-sm font-medium">
-              <span>Marginal Tax Rate</span>
-              <span>30%</span>
-            </div>
+            <SummaryRow label="Total Tax" value={formatAUD(round2(totalTax))} />
+            <SummaryRow
+              label="Total Taxable Income"
+              value={formatAUD(round2(b))}
+            />
+            <SummaryRow
+              label="Marginal Tax Rate"
+              value={`${Math.round((marginalRate || 0) * 100)}%`}
+            />
           </div>
         </CardContent>
       </Card>
 
-      {/* Health Insurance Banner */}
-      <Card className="bg-primary text-white overflow-hidden">
+      {/* Promo card */}
+      <Card className="bg-primary text-white overflow-hidden rounded-2xl">
         <CardContent className="p-6">
           <div className="flex items-center gap-4">
             <div className="bg-white/20 p-3 rounded-lg">
-              <div className="w-6 h-6 bg-white/40 rounded"></div>
+              <div className="w-6 h-6 bg-white/40 rounded" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold mb-1">Don't pay the lazy tax. Find a better deal on health insurance.</h3>
-              <p className="text-sm text-white/90 mb-3">Compare yours in just 2 minutes.</p>
+              <h3 className="font-semibold mb-1">
+                Don't pay the lazy tax. Find a better deal on health insurance.
+              </h3>
+              <p className="text-sm text-white/90 mb-3">
+                Compare yours in just 2 minutes.
+              </p>
               <div className="flex gap-2">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Enter your Postcode"
                   className="bg-white/20 border border-white/30 rounded px-3 py-2 text-white placeholder-white/70 text-sm flex-1"
                 />
                 <Button className="bg-white text-primary hover:bg-white/90 px-6">
                   Compare
-                  <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
               </div>
             </div>
@@ -204,3 +175,44 @@ export const ResultsCard = ({
     </div>
   );
 };
+
+const BreakdownRow = ({
+  label,
+  color,
+  badge,
+  amount,
+  negativeStyle = false,
+}: {
+  label: string;
+  color: string;
+  badge: string;
+  amount: number;
+  negativeStyle?: boolean;
+}) => {
+  const badgeClass =
+    "px-2 py-0.5 text-xs font-semibold rounded-full " +
+    (negativeStyle && amount < 0
+      ? "bg-amber-100 text-amber-700"
+      : "bg-gray-100 text-gray-700");
+
+  return (
+    <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center gap-2">
+        <div className={`w-3 h-3 ${color} rounded-full`} />
+        <span className="text-gray-700">{label}</span>
+        <Info className="w-3.5 h-3.5 text-gray-400" />
+      </div>
+      <div className="text-right">
+        <div className={badgeClass}>{badge}%</div>
+        <div className="font-medium">{formatAUD(round2(amount))}</div>
+      </div>
+    </div>
+  );
+};
+
+const SummaryRow = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex justify-between text-sm font-semibold">
+    <span>{label}</span>
+    <span>{value}</span>
+  </div>
+);

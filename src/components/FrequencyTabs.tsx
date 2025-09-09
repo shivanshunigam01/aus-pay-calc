@@ -1,19 +1,39 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import * as React from "react";
 import { Frequency } from "@/lib/money";
 
-interface FrequencyTabsProps {
+interface Props {
   value: Frequency;
-  onChange: (value: Frequency) => void;
+  onChange: (v: Frequency) => void;
 }
 
-export const FrequencyTabs = ({ value, onChange }: FrequencyTabsProps) => {
+export const FrequencyTabs: React.FC<Props> = ({ value, onChange }) => {
+  const Tab = ({ id, label }: { id: Frequency; label: string }) => {
+    const active = value === id;
+    return (
+      <button
+        onClick={() => onChange(id)}
+        className={[
+          "flex-1 text-sm font-medium px-4 py-2 transition",
+          active
+            ? "bg-primary text-white shadow-sm"
+            : "text-primary hover:bg-primary/10",
+          "rounded-[10px]",
+        ].join(" ")}
+      >
+        {label}
+      </button>
+    );
+  };
+
   return (
-    <Tabs value={value} onValueChange={onChange as (value: string) => void}>
-      <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1">
-        <TabsTrigger value="weekly" className="text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-primary">Weekly</TabsTrigger>
-        <TabsTrigger value="monthly" className="text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-primary">Monthly</TabsTrigger>
-        <TabsTrigger value="annually" className="text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-primary">Annually</TabsTrigger>
-      </TabsList>
-    </Tabs>
+    <div className="w-full max-w-[360px] mx-auto">
+      <div className="flex rounded-[12px] border border-primary/40 p-1 bg-white">
+        <Tab id="weekly" label="Weekly" />
+        <div className="w-[1px] bg-primary/15 my-1" />
+        <Tab id="monthly" label="Monthly" />
+        <div className="w-[1px] bg-primary/15 my-1" />
+        <Tab id="annually" label="Annually" />
+      </div>
+    </div>
   );
 };
