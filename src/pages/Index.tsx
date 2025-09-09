@@ -54,22 +54,28 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ backgroundColor: '#f8f9fa' }}>
       {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-primary">Australian Pay Calculator</h1>
-          <p className="text-muted-foreground mt-2">
-            Calculate your take-home pay with Australian tax rates and Medicare levies
+      <header className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-6 py-8">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">M</span>
+            </div>
+            <span className="text-primary font-semibold">money.com.au</span>
+          </div>
+          <h1 className="text-4xl font-bold text-foreground mb-2">PAY CALCULATOR</h1>
+          <p className="text-muted-foreground text-lg">
+            Find out how much take-home pay you'll receive if you're earning a certain salary
           </p>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-2 gap-8 max-w-7xl">
+      <main className="container mx-auto px-6 py-8">
+        <div className="grid lg:grid-cols-[420px_1fr] gap-8 max-w-[1200px]">
           {/* Form */}
-          <div className="space-y-6">
+          <div>
             <PayCalculatorForm
               inputs={inputs}
               onChange={setInputs}
@@ -78,7 +84,7 @@ const Index = () => {
           </div>
 
           {/* Results */}
-          <div className="space-y-6">
+          <div>
             <ResultsCard
               calculation={calculation}
               displayFrequency={displayFrequency}

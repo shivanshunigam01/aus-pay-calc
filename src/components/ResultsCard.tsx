@@ -32,17 +32,20 @@ export const ResultsCard = ({
                         displayFrequency === 'monthly' ? 'month' : 'year';
 
   return (
-    <Card className="h-fit border-l-4 border-l-primary shadow-lg">
-      <CardHeader className="pb-4">
+    <Card className="h-fit shadow-sm bg-white">
+      <CardHeader className="pb-6">
         <div className="text-center">
-          <h2 className="text-lg font-medium text-muted-foreground mb-2">
+          <h2 className="text-xl font-semibold text-foreground mb-3">
             Your take home pay is
           </h2>
-          <div className="text-4xl font-bold text-primary mb-4">
-            {formatAUD(convertToDisplayFreq(takeHomeAnnual))}
-          </div>
-          <div className="text-sm text-muted-foreground mb-4">
-            per {frequencyLabel}
+          <div className="relative mb-6">
+            <div className="text-5xl font-bold text-primary mb-2">
+              {formatAUD(convertToDisplayFreq(takeHomeAnnual))}
+            </div>
+            <div className="inline-flex items-center gap-2 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+              <span className="w-2 h-2 bg-white rounded-full"></span>
+              NET
+            </div>
           </div>
           <FrequencyTabs value={displayFrequency} onChange={onFrequencyChange} />
         </div>

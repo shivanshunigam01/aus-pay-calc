@@ -23,39 +23,39 @@ export const PayCalculatorForm = ({ inputs, onChange, onReset }: PayCalculatorFo
   };
 
   return (
-    <Card className="border-l-4 border-l-primary shadow-lg">
-      <CardHeader className="pb-4">
+    <Card className="border-l-4 border-l-primary shadow-sm bg-white">
+      <CardHeader className="pb-6">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-bold">Pay Calculator</CardTitle>
+          <CardTitle className="text-xl font-bold text-foreground">Pay Calculator</CardTitle>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={onReset}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-primary hover:text-primary/80 font-medium"
           >
             Reset
           </Button>
         </div>
       </CardHeader>
       
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
+      <CardContent className="space-y-8">
+        <div className="grid grid-cols-2 gap-6">
           <NumberInput
             id="salary"
-            label="Your salary"
+            label="Your salary*"
             value={inputs.salary}
             onChange={(value) => updateInput('salary', value)}
             prefix="$"
             placeholder="80,000"
           />
           
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Frequency</Label>
+          <div className="space-y-3">
+            <Label className="text-base font-semibold text-foreground">Frequency</Label>
             <Select 
               value={inputs.frequency} 
               onValueChange={(value: Frequency) => updateInput('frequency', value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="h-12 text-lg">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
