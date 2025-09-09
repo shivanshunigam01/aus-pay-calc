@@ -283,3 +283,4 @@ export const calculateTax = (inputs: CalculationInputs): TaxCalculation => {
     marginalRate,
   };
 };
+

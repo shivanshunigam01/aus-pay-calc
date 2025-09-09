@@ -1,33 +1,15 @@
-// Australian money formatting utilities
+// /lib/money.ts
+export type Frequency = "weekly" | "monthly" | "annually";
 
-export const formatAUD = (n: number): string =>
-  new Intl.NumberFormat('en-AU', { 
-    style: 'currency', 
-    currency: 'AUD', 
-    maximumFractionDigits: 2 
-  }).format(n || 0);
+export const formatAUD = (n: number) =>
+  new Intl.NumberFormat("en-AU", {
+    style: "currency",
+    currency: "AUD",
+    maximumFractionDigits: 2,
+  }).format(Number.isFinite(n) ? n : 0);
 
-export const formatNumber = (n: number): string =>
-  new Intl.NumberFormat('en-AU', { 
-    maximumFractionDigits: 2 
-  }).format(n || 0);
+export const toAnnual = (v: number, f: Frequency) =>
+  f === "weekly" ? v * 52 : f === "monthly" ? v * 12 : v;
 
-export type Frequency = 'weekly' | 'monthly' | 'annually';
-
-export const toAnnual = (amount: number, frequency: Frequency): number => {
-  switch (frequency) {
-    case 'weekly': return amount * 52;
-    case 'monthly': return amount * 12;
-    case 'annually': return amount;
-    default: return amount;
-  }
-};
-
-export const fromAnnual = (annual: number, frequency: Frequency): number => {
-  switch (frequency) {
-    case 'weekly': return annual / 52;
-    case 'monthly': return annual / 12;
-    case 'annually': return annual;
-    default: return annual;
-  }
-};
+export const fromAnnual = (v: number, f: Frequency) =>
+  f === "weekly" ? v / 52 : f === "monthly" ? v / 12 : v;
