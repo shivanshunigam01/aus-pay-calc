@@ -102,7 +102,7 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Information Sections */}
+        {/* Information Sections
         <div className="mt-16 max-w-4xl mx-auto space-y-12">
           <section className="prose prose-neutral max-w-none">
             <h2 className="text-2xl font-bold text-foreground mb-4">
@@ -178,7 +178,7 @@ const Index = () => {
               situations, consult a qualified tax professional.
             </p>
           </section>
-        </div>
+        </div> */}
       </main>
 
       {/* Footer */}
