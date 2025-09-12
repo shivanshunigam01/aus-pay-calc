@@ -148,11 +148,11 @@ export const ResultsCard = ({
       </Card>
 
       {/* CTA Card */}
-      <Card className="bg-white rounded-2xl shadow-md">
+      <Card className="bg-[#0A2A66] rounded-2xl shadow-md">
         <CardContent className="p-6 text-center">
           <Button
             asChild
-            className="bg-primary hover:bg-primary/90 text-white font-semibold text-base px-8 py-3 rounded-full shadow-md"
+            className="bg-black hover:bg-black/90 text-white font-semibold text-base px-8 py-3 rounded-full shadow-md"
           >
             <a href={DISCOVERY_URL} target="_blank" rel="noopener noreferrer">
               Book Your Free 15 Minute Consultation
