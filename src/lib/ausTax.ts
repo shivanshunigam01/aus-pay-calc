@@ -180,6 +180,7 @@ export interface TaxCalculation {
 }
 
 export interface CalculationInputs {
+  spouseIncome: number;
   salary: number;
   frequency: "weekly" | "monthly" | "annually";
   includesSuper: boolean;

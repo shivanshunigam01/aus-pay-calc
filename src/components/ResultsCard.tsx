@@ -16,6 +16,9 @@ const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
 const pct = (part: number, whole: number) =>
   whole > 0 ? ((part / whole) * 100).toFixed(1) : "0.0";
 
+const DISCOVERY_URL =
+  "https://calendly.com/nanakaccountant/discovery-meeting?back=1&month=2025-09";
+
 export const ResultsCard = ({
   calculation,
   displayFrequency,
@@ -41,12 +44,12 @@ export const ResultsCard = ({
   const help = fromAnnual(helpRepayment, displayFrequency);
   const take = fromAnnual(takeHomeAnnual, displayFrequency);
 
-  // rounding reconciliation: show a tiny "Tax Offsets" row if rounding creates drift
+  // rounding reconciliation
   const totalTax = itx + ml + mls + help;
-  const drift = round2(b - totalTax - take); // positive => our per-item rounding shaved cents
-  const offsets = Math.abs(drift) < 0.005 ? 0 : drift; // keep 0 unless visible
+  const drift = round2(b - totalTax - take);
+  const offsets = Math.abs(drift) < 0.005 ? 0 : drift;
 
-  // dynamic % badges (as share of taxable income per period)
+  // dynamic % badges
   const takePct = pct(take, b);
   const supPct = pct(sup, b);
   const itxPct = pct(itx, b);
@@ -144,32 +147,17 @@ export const ResultsCard = ({
         </CardContent>
       </Card>
 
-      {/* Promo card */}
-      <Card className="bg-primary text-white overflow-hidden rounded-2xl">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/20 p-3 rounded-lg">
-              <div className="w-6 h-6 bg-white/40 rounded" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold mb-1">
-                Don't pay the lazy tax. Find a better deal on health insurance.
-              </h3>
-              <p className="text-sm text-white/90 mb-3">
-                Compare yours in just 2 minutes.
-              </p>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Enter your Postcode"
-                  className="bg-white/20 border border-white/30 rounded px-3 py-2 text-white placeholder-white/70 text-sm flex-1"
-                />
-                <Button className="bg-white text-primary hover:bg-white/90 px-6">
-                  Compare
-                </Button>
-              </div>
-            </div>
-          </div>
+      {/* CTA Card */}
+      <Card className="bg-white rounded-2xl shadow-md">
+        <CardContent className="p-6 text-center">
+          <Button
+            asChild
+            className="bg-primary hover:bg-primary/90 text-white font-semibold text-base px-8 py-3 rounded-full shadow-md"
+          >
+            <a href={DISCOVERY_URL} target="_blank" rel="noopener noreferrer">
+              Book Your Free 15 Minute Consultation
+            </a>
+          </Button>
         </CardContent>
       </Card>
     </div>

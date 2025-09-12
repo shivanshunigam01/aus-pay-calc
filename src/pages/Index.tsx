@@ -71,11 +71,11 @@ const Index = () => {
             <span className="text-primary font-semibold">money.com.au</span>
           </div> */}
           <h1 className="text-4xl font-bold text-foreground mb-2">
-            PAY CALCULATOR
+            Quick Income Tax Calculator
           </h1>
           <p className="text-muted-foreground text-lg">
-            Find out how much take-home pay you'll receive if you're earning a
-            certain salary
+            Fast & Free In Hand Salary Calculator | ATO Pay Tax | ABN and TFN
+            Tax Calculator
           </p>
         </div>
       </header>
