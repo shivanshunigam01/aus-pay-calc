@@ -152,7 +152,7 @@ export const ResultsCard = ({
         <CardContent className="p-6 text-center">
           <Button
             asChild
-            className="bg-black hover:bg-black/90 text-white font-semibold text-base px-8 py-3 rounded-full shadow-md"
+            className="bg-transparent hover:bg-transparent text-white font-semibold text-xl  px-8 py-3 rounded-full shadow-none"
           >
             <a href={DISCOVERY_URL} target="_blank" rel="noopener noreferrer">
               Book Your Free 15 Minute Consultation
