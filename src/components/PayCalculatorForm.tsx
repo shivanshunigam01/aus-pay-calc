@@ -42,10 +42,10 @@ export const PayCalculatorForm = ({
   ) => onChange({ ...inputs, [key]: value });
 
   return (
-    <Card className="w-full bg-white shadow-sm rounded-2xl">
+    <Card className="w-full bg-card shadow-sm rounded-2xl">
       <CardHeader className="pb-4 rounded-t-2xl">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-semibold text-gray-900">
+        <div className="flex items-center justify-between gap-3">
+          <CardTitle className="text-xl font-semibold text-foreground">
             Pay Calculator
           </CardTitle>
           <div className="flex gap-2">
@@ -53,7 +53,7 @@ export const PayCalculatorForm = ({
               variant="outline"
               size="sm"
               onClick={onReset}
-              className="text-primary border-primary hover:bg-primary/5"
+              className="text-foreground border-border hover:bg-secondary"
             >
               Reset
             </Button>
@@ -85,7 +85,7 @@ export const PayCalculatorForm = ({
           <div className="space-y-2">
             <Label
               htmlFor="salary"
-              className="text-sm font-medium text-gray-700"
+              className="text-sm font-medium text-foreground"
             >
               Your salary
             </Label>
@@ -103,7 +103,7 @@ export const PayCalculatorForm = ({
           <div className="space-y-2">
             <Label
               htmlFor="frequency"
-              className="text-sm font-medium text-gray-700"
+              className="text-sm font-medium text-foreground"
             >
               Frequency
             </Label>
@@ -132,39 +132,38 @@ export const PayCalculatorForm = ({
               updateInput("includesSuper", !!checked)
             }
           />
-
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="inline-flex items-center gap-1.5 text-gray-900 cursor-default px-2 py-0.5">
+                <span className="inline-flex items-center gap-1.5 text-foreground cursor-default px-2 py-0.5">
                   <Label
                     htmlFor="includes-super"
                     className="text-sm cursor-pointer m-0"
                   >
                     Salary includes superannuation
                   </Label>
-                  <HelpCircle className="w-4 h-4 text-gray-500" />
+                  <HelpCircle className="w-4 h-4 text-muted-foreground" />
                 </span>
               </TooltipTrigger>
               <TooltipContent
                 side="bottom"
                 align="start"
-                className="rounded-xl bg-white text-gray-800 border shadow-lg max-w-xs"
+                className="rounded-xl bg-card text-foreground border border-border shadow-lg max-w-xs"
               >
                 <p className="text-sm">
                   Only tick this box if you have included your super in your
                   salary figure.
                 </p>
-                <TooltipArrow className="fill-white" />
+                <TooltipArrow className="fill-card" />
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
 
         {/* Super + Year */}
-        <div className="flex gap-6">
+        <div className="flex flex-col sm:flex-row gap-6">
           <div className="flex-1">
-            <Label className="text-sm font-medium text-gray-700 mb-2 block">
+            <Label className="text-sm font-medium text-foreground mb-2 block">
               Superannuation rate
             </Label>
             <NumberInput
@@ -181,7 +180,7 @@ export const PayCalculatorForm = ({
           </div>
 
           <div className="flex-1">
-            <Label className="text-sm font-medium text-gray-700 mb-2 block">
+            <Label className="text-sm font-medium text-foreground mb-2 block">
               Tax year
             </Label>
             <Select
@@ -199,31 +198,30 @@ export const PayCalculatorForm = ({
           </div>
         </div>
 
-        {/* Residency — single help icon for the whole question */}
+        {/* Residency */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <span className="inline-flex items-center gap-1.5 text-gray-900 cursor-default px-2 py-0.5">
-                    <Label className="text-sm font-medium text-gray-700 m-0">
+                  <span className="inline-flex items-center gap-1.5 text-foreground cursor-default px-2 py-0.5">
+                    <Label className="text-sm font-medium text-foreground m-0">
                       Are you an Australian resident for tax purposes?
                     </Label>
-                    {/* ONE help icon only */}
-                    <HelpCircle className="w-4 h-4 text-gray-500" />
+                    <HelpCircle className="w-4 h-4 text-muted-foreground" />
                   </span>
                 </TooltipTrigger>
                 <TooltipContent
                   side="bottom"
                   align="start"
-                  className="rounded-xl bg-white text-gray-800 border shadow-lg max-w-md"
+                  className="rounded-xl bg-card text-foreground border border-border shadow-lg max-w-md"
                 >
                   <p className="text-sm">
                     Foreign residents pay different rates and don’t pay the
                     Medicare Levy or receive certain offsets. See ATO guidance
                     for definitions and details.
                   </p>
-                  <TooltipArrow className="fill-white" />
+                  <TooltipArrow className="fill-card" />
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -241,34 +239,34 @@ export const PayCalculatorForm = ({
           />
         </div>
 
-        {/* ADVANCED SECTION (collapsible) */}
+        {/* ADVANCED SECTION */}
         <div
           id="advanced-section"
           className={showAdvanced ? "space-y-6" : "hidden"}
         >
-          {/* Student loan debt (generic informational) */}
+          {/* Student loan (generic) */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="inline-flex items-center gap-1.5 text-gray-900 cursor-default px-2 py-0.5">
-                      <Label className="text-sm font-medium text-gray-700 m-0">
+                    <span className="inline-flex items-center gap-1.5 text-foreground cursor-default px-2 py-0.5">
+                      <Label className="text-sm font-medium text-foreground m-0">
                         Do you have student loan debt?
                       </Label>
-                      <HelpCircle className="w-4 h-4 text-gray-500" />
+                      <HelpCircle className="w-4 h-4 text-muted-foreground" />
                     </span>
                   </TooltipTrigger>
                   <TooltipContent
                     side="bottom"
                     align="start"
-                    className="rounded-xl bg-white text-gray-800 border shadow-lg max-w-md"
+                    className="rounded-xl bg-card text-foreground border border-border shadow-lg max-w-md"
                   >
                     <p className="text-sm">
                       For general student loans; use this for informational
                       capture only.
                     </p>
-                    <TooltipArrow className="fill-white" />
+                    <TooltipArrow className="fill-card" />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -294,23 +292,23 @@ export const PayCalculatorForm = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="inline-flex items-center gap-1.5 text-gray-900 cursor-default px-2 py-0.5">
-                      <Label className="text-sm font-medium text-gray-700 m-0">
+                    <span className="inline-flex items-center gap-1.5 text-foreground cursor-default px-2 py-0.5">
+                      <Label className="text-sm font-medium text-foreground m-0">
                         Are you claiming the tax-free threshold?
                       </Label>
-                      <HelpCircle className="w-4 h-4 text-gray-500" />
+                      <HelpCircle className="w-4 h-4 text-muted-foreground" />
                     </span>
                   </TooltipTrigger>
                   <TooltipContent
                     side="bottom"
                     align="start"
-                    className="rounded-xl bg-white text-gray-800 border shadow-lg max-w-md"
+                    className="rounded-xl bg-card text-foreground border border-border shadow-lg max-w-md"
                   >
                     <p className="text-sm">
                       Generally claim from only one payer—the one who pays the
                       highest wage.
                     </p>
-                    <TooltipArrow className="fill-white" />
+                    <TooltipArrow className="fill-card" />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -336,23 +334,23 @@ export const PayCalculatorForm = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="inline-flex items-center gap-1.5 text-gray-900 cursor-default px-2 py-0.5">
-                      <Label className="text-sm font-medium text-gray-700 m-0">
+                    <span className="inline-flex items-center gap-1.5 text-foreground cursor-default px-2 py-0.5">
+                      <Label className="text-sm font-medium text-foreground m-0">
                         Do you have student loan debt?
                       </Label>
-                      <HelpCircle className="w-4 h-4 text-gray-500" />
+                      <HelpCircle className="w-4 h-4 text-muted-foreground" />
                     </span>
                   </TooltipTrigger>
                   <TooltipContent
                     side="bottom"
                     align="start"
-                    className="rounded-xl bg-white text-gray-800 border shadow-lg max-w-md"
+                    className="rounded-xl bg-card text-foreground border border-border shadow-lg max-w-md"
                   >
                     <p className="text-sm">
                       HELP/HECS, VSL, SFSS, SSL, ABSTUDY SSL, AASL (TSL).
                       Affects withholding.
                     </p>
-                    <TooltipArrow className="fill-white" />
+                    <TooltipArrow className="fill-card" />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -376,22 +374,22 @@ export const PayCalculatorForm = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="inline-flex items-center gap-1.5 text-gray-900 cursor-default px-2 py-0.5">
-                      <Label className="text-sm font-medium text-gray-700 m-0">
+                    <span className="inline-flex items-center gap-1.5 text-foreground cursor-default px-2 py-0.5">
+                      <Label className="text-sm font-medium text-foreground m-0">
                         Are you on a working holiday visa?
                       </Label>
-                      <HelpCircle className="w-4 h-4 text-gray-500" />
+                      <HelpCircle className="w-4 h-4 text-muted-foreground" />
                     </span>
                   </TooltipTrigger>
                   <TooltipContent
                     side="bottom"
                     align="start"
-                    className="rounded-xl bg-white text-gray-800 border shadow-lg max-w-md"
+                    className="rounded-xl bg-card text-foreground border border-border shadow-lg max-w-md"
                   >
                     <p className="text-sm">
                       Subclass 417 or 462 visa (Working Holiday Maker).
                     </p>
-                    <TooltipArrow className="fill-white" />
+                    <TooltipArrow className="fill-card" />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -417,22 +415,22 @@ export const PayCalculatorForm = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="inline-flex items-center gap-1.5 text-gray-900 cursor-default px-2 py-0.5">
-                      <Label className="text-sm font-medium text-gray-700 m-0">
+                    <span className="inline-flex items-center gap-1.5 text-foreground cursor-default px-2 py-0.5">
+                      <Label className="text-sm font-medium text-foreground m-0">
                         Do you have private hospital cover?
                       </Label>
-                      <HelpCircle className="w-4 h-4 text-gray-500" />
+                      <HelpCircle className="w-4 h-4 text-muted-foreground" />
                     </span>
                   </TooltipTrigger>
                   <TooltipContent
                     side="bottom"
                     align="start"
-                    className="rounded-xl bg-white text-gray-800 border shadow-lg max-w-md"
+                    className="rounded-xl bg-card text-foreground border border-border shadow-lg max-w-md"
                   >
                     <p className="text-sm">
                       Singles: excess ≤ $750; couples/families: excess ≤ $1,500.
                     </p>
-                    <TooltipArrow className="fill-white" />
+                    <TooltipArrow className="fill-card" />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -452,20 +450,20 @@ export const PayCalculatorForm = ({
             />
           </div>
 
-          {/* Family status (with spouse income if family) */}
+          {/* Family status */}
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-gray-700">
+            <Label className="text-sm font-medium text-foreground">
               Family status
             </Label>
 
-            <div className="flex overflow-hidden rounded-full border border-primary">
+            <div className="flex overflow-hidden rounded-full border border-border">
               <Button
                 type="button"
                 variant="ghost"
                 className={`flex-1 rounded-none py-3 text-sm font-medium transition-colors ${
                   inputs.familyStatus === "single"
-                    ? "bg-primary text-white"
-                    : "bg-transparent text-gray-900 hover:bg-primary/10"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-transparent text-foreground hover:bg-secondary"
                 }`}
                 onClick={() => updateInput("familyStatus", "single")}
               >
@@ -476,8 +474,8 @@ export const PayCalculatorForm = ({
                 variant="ghost"
                 className={`flex-1 rounded-none py-3 text-sm font-medium transition-colors ${
                   inputs.familyStatus === "family"
-                    ? "bg-primary text-white"
-                    : "bg-transparent text-gray-900 hover:bg-primary/10"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-transparent text-foreground hover:bg-secondary"
                 }`}
                 onClick={() => updateInput("familyStatus", "family")}
               >
@@ -489,7 +487,7 @@ export const PayCalculatorForm = ({
               <div className="space-y-2 pt-3">
                 <Label
                   htmlFor="spouse-income"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-foreground"
                 >
                   Spouse income (per annum)
                 </Label>
@@ -508,7 +506,7 @@ export const PayCalculatorForm = ({
 
           {/* Number of dependants */}
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-gray-700">
+            <Label className="text-sm font-medium text-foreground">
               Number of dependants
             </Label>
             <Select
@@ -533,10 +531,10 @@ export const PayCalculatorForm = ({
           {/* SAPTO */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <Label className="text-sm font-medium text-gray-700">
+              <Label className="text-sm font-medium text-foreground">
                 Are you eligible for SAPTO?
               </Label>
-              <HelpCircle className="w-4 h-4 text-gray-400" />
+              <HelpCircle className="w-4 h-4 text-muted-foreground" />
             </div>
             <RadioGroup
               id="sapto"

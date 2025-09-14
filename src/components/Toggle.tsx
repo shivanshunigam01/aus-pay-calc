@@ -9,7 +9,13 @@ interface ToggleProps {
   disabled?: boolean;
 }
 
-export const Toggle = ({ id, label, checked, onChange, disabled }: ToggleProps) => {
+export const Toggle = ({
+  id,
+  label,
+  checked,
+  onChange,
+  disabled,
+}: ToggleProps) => {
   return (
     <div className="flex items-center justify-between">
       <Label htmlFor={id} className="text-sm font-medium text-foreground">
