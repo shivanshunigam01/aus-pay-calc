@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FrequencyTabs } from "./FrequencyTabs";
@@ -62,7 +64,8 @@ export const ResultsCard = ({
 
   return (
     <div className="space-y-4">
-      <Card className="bg-card shadow-sm rounded-2xl">
+      {/* Main Breakdown Card */}
+      <Card className="bg-card border border-border shadow-md rounded-2xl">
         <CardHeader className="pb-2">
           <div className="text-center">
             <PieTakeHome
@@ -72,19 +75,20 @@ export const ResultsCard = ({
               medicareLevySurcharge={mls}
               helpRepayment={help}
             />
-            <div className="mt-4">
+            <div className="mt-4 text-center">
               <p className="text-sm text-muted-foreground mb-1">
                 Your take home pay is{" "}
-                <span className="bg-primary text-primary-foreground px-2 py-0.5 rounded-md text-xs font-semibold align-middle">
+                <span className="bg-primary text-primary-foreground dark:bg-white dark:text-primary px-2 py-0.5 rounded-md text-xs font-semibold align-middle">
                   {takePct}%
                 </span>
               </p>
-              <div className="text-3xl sm:text-4xl font-extrabold text-primary mb-4">
+              <div className="text-3xl sm:text-4xl font-extrabold text-primary dark:text-white mb-4">
                 {formatAUD(round2(take))}
               </div>
               <FrequencyTabs
                 value={displayFrequency}
                 onChange={onFrequencyChange}
+                className="dark:bg-white dark:text-black" // <-- make buttons white in dark mode
               />
             </div>
           </div>
@@ -110,14 +114,14 @@ export const ResultsCard = ({
             color="bg-purple-400"
             badge={mlPct}
             amount={ml}
-            tooltip="Medicare gives Australian residents access to health care. It's partly funded by the Medicare levy, which is 2% of your taxable income for most taxpayers. You pay a Medicare levy in addition to the income tax you pay on your taxable income."
+            tooltip="Medicare gives Australian residents access to health care. It's partly funded by the Medicare levy, which is 2% of your taxable income for most taxpayers."
           />
           <BreakdownRow
             label="Medicare Levy Surcharge"
             color="bg-green-400"
             badge={mlsPct}
             amount={mls}
-            tooltip="The Medicare levy surcharge (MLS) is levied on Australian taxpayers who don't have an appropriate level of private hospital insurance and who earn above a certain income threshold."
+            tooltip="The Medicare levy surcharge (MLS) is levied on Australian taxpayers who don't have private hospital insurance and who earn above a certain income threshold."
           />
           <BreakdownRow
             label="HELP / SSL / TLS Repayment"
@@ -156,21 +160,18 @@ export const ResultsCard = ({
         </CardContent>
       </Card>
 
-      {/* CTA Card — responsive button */}
+      {/* CTA Card */}
       <Card className="rounded-2xl shadow-md overflow-hidden bg-[#0A2A66] dark:bg-[#0B1E46]">
         <CardContent className="p-4 sm:p-6 text-center">
           <Button
             asChild
-            className="
-          w-full h-auto min-h-[44px]
-          inline-flex items-center justify-center
-          px-4 sm:px-6 md:px-8 py-3 sm:py-4
-          text-white font-semibold
-          text-base sm:text-lg md:text-xl leading-snug
-          whitespace-normal break-words text-pretty
-          rounded-lg sm:rounded-xl md:rounded-full
-          bg-transparent hover:bg-white/10 shadow-none
-        "
+            className="w-full h-auto min-h-[44px] inline-flex items-center justify-center 
+              px-4 sm:px-6 md:px-8 py-3 sm:py-4 
+              text-white font-semibold 
+              text-base sm:text-lg md:text-xl leading-snug 
+              whitespace-normal break-words text-pretty 
+              rounded-lg sm:rounded-xl md:rounded-full 
+              bg-transparent hover:bg-white/10 shadow-none"
             aria-label="Book Your Free 15 Minute Consultation"
           >
             <a href={DISCOVERY_URL} target="_blank" rel="noopener noreferrer">
@@ -183,6 +184,7 @@ export const ResultsCard = ({
   );
 };
 
+/* --- BreakdownRow Subcomponent --- */
 const BreakdownRow = ({
   label,
   color,
@@ -238,7 +240,6 @@ const BreakdownRow = ({
             <Info className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
           )
         ) : (
-          /* keep layout alignment without showing an icon */
           <span aria-hidden className="w-3.5 h-3.5 invisible" />
         )}
       </div>
@@ -253,6 +254,7 @@ const BreakdownRow = ({
   );
 };
 
+/* --- SummaryRow Subcomponent --- */
 const SummaryRow = ({ label, value }: { label: string; value: string }) => (
   <div className="flex justify-between text-sm font-semibold text-foreground">
     <span>{label}</span>
