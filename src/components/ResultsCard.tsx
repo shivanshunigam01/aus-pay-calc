@@ -166,12 +166,13 @@ export const ResultsCard = ({
           <Button
             asChild
             className="w-full h-auto min-h-[44px] inline-flex items-center justify-center 
-              px-4 sm:px-6 md:px-8 py-3 sm:py-4 
-              text-white font-semibold 
-              text-base sm:text-lg md:text-xl leading-snug 
-              whitespace-normal break-words text-pretty 
-              rounded-lg sm:rounded-xl md:rounded-full 
-              bg-transparent hover:bg-white/10 shadow-none"
+        px-4 sm:px-6 md:px-8 py-3 sm:py-4 
+        text-white font-semibold 
+        text-base sm:text-lg md:text-xl leading-snug 
+        whitespace-normal break-words text-pretty 
+        rounded-lg sm:rounded-xl md:rounded-full 
+        bg-[#0A2A66] dark:bg-[#0B1E46] shadow-none
+        hover:bg-[#0A2A66] dark:hover:bg-[#0B1E46]"
             aria-label="Book Your Free 15 Minute Consultation"
           >
             <a href={DISCOVERY_URL} target="_blank" rel="noopener noreferrer">
