@@ -101,7 +101,7 @@ const Index = () => {
       <footer className="border-t border-border bg-card mt-10">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6 text-center text-muted-foreground">
           <p>
-            © 2024 Australian Pay Calculator. Tax rates sourced from the
+            © Nanak Accountants & Associates. Tax rates sourced from the
             Australian Tax Office.
           </p>
         </div>

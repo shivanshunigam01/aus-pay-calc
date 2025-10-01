@@ -44,16 +44,16 @@ export const PayCalculatorForm = ({
   return (
     <Card className="w-full bg-card shadow-sm rounded-2xl">
       <CardHeader className="pb-4 rounded-t-2xl">
-        <div className="flex items-center justify-between gap-3">
-          <CardTitle className="text-xl font-semibold text-foreground">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <CardTitle className="text-lg sm:text-xl font-semibold text-foreground break-words">
             Pay Calculator
           </CardTitle>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
             <Button
               variant="outline"
               size="sm"
               onClick={onReset}
-              className="text-foreground border-border hover:bg-secondary"
+              className="text-foreground border-border hover:bg-secondary flex-1 sm:flex-none"
             >
               Reset
             </Button>
@@ -63,7 +63,7 @@ export const PayCalculatorForm = ({
               onClick={() => setShowAdvanced((v) => !v)}
               aria-expanded={showAdvanced}
               aria-controls="advanced-section"
-              className="gap-1"
+              className="gap-1 flex-1 sm:flex-none"
             >
               {showAdvanced ? (
                 <>
